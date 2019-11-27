@@ -1,6 +1,22 @@
 const DevModel = require('./../Models/Dev');
 const Axios = require('axios');
 module.exports = {
+  async index(req, res) {
+    const {user} = req.headers;
+
+    const userLogged = await DevModel.findById(user);
+
+    const users = await DevModel.find({
+      $and: [
+        {_id: {$ne: user}},
+        {_id: {$nin: userLogged.likes}},
+        {_id: {$nin: userLogged.deslikes}},
+      ],
+    });
+
+    return res.json(users);
+  },
+
   async store(req, res) {
     const {username} = req.body;
 

@@ -13,11 +13,7 @@ module.exports = {
       return res.status(400).json({error: 'Usuario Nao Existe'});
     }
 
-    if (targetUser.likes.includes(userLogged._id)) {
-      console.log('Match ');
-    }
-
-    userLogged.likes.push(targetUser._id);
+    userLogged.deslikes.push(targetUser._id);
 
     await userLogged.save();
 
